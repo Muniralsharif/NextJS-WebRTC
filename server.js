@@ -1,7 +1,7 @@
 const express = require("express");
 const next = require("next");
 const port = process.env.PORT || 3000;
-const dev = false;
+const dev = true;
 const app = next({ dev });
 const handle = app.getRequestHandler();
 const server = express();
@@ -9,11 +9,17 @@ const supServer = require("http").Server(server);
 const io = require("socket.io")(supServer);
 const { v4: uuidV4 } = require("uuid");
 const { PeerServer } = require("peer");
+const { ExpressPeerServer } = require("peer");
+const peerServer = ExpressPeerServer(server, {
+  path: "/webrtc",
+});
+
 console.log({ uuidV4: uuidV4() });
 app
   .prepare()
   .then(() => {
     // server.use(express.static(__dirname + "/"));
+    server.use("/peer", peerServer);
     server.post("*", (req, res) => {
       return handle(req, res);
     });
@@ -32,7 +38,7 @@ app
       });
     });
 
-    const peerServer = PeerServer({ port: 3001 });
+    // const peerServer = PeerServer({ port: 3001 });
     peerServer.on("connection", ({ id }) =>
       console.log("client Connected : ", id)
     );

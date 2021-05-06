@@ -7,8 +7,8 @@ const webRTC = (room) => {
   socket = io("/");
   peer = new Peer({
     host: "localhost",
-    port: "3001",
-    path: "/",
+    port: "3000",
+    path: "/peer/webrtc",
     iceServers: [{ urls: "stun:stun.1.google.com:19302" }],
   });
   peer.on("open", (id) => {
