@@ -6,9 +6,9 @@ const peers = {};
 const webRTC = (room) => {
   socket = io("/");
   peer = new Peer({
-    host: "webrtc-rajaosama.herokuapp.com",
-    // port: "3000",
-    path: "/peer/webrtc",
+    host: "rajaosama-peer.herokuapp.com",
+    port: "443",
+    path: "/",
     iceServers: [{ urls: "stun:stun.1.google.com:19302" }],
   });
   peer.on("open", (id) => {
