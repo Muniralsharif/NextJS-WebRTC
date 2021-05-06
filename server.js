@@ -26,10 +26,13 @@ app
       socket.on("join-room", (roomId, userId) => {
         socket.join(roomId);
         socket.broadcast.to(roomId).emit("user-connected", userId);
+        socket.on("disconnect", () => {
+          socket.broadcast.to(roomId).emit("user-disconnected", userId);
+        });
       });
     });
 
-    const peerServer = PeerServer({ port: 3001, path: "/" });
+    const peerServer = PeerServer({ port: 3001 });
     peerServer.on("connection", ({ id }) =>
       console.log("client Connected : ", id)
     );
