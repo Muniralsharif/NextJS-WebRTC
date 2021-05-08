@@ -1,15 +1,14 @@
 const express = require("express");
 const next = require("next");
 const port = process.env.PORT || 3000;
-const dev = false;
+const dev = process.env.NODE_ENV ? false : true;
 const app = next({ dev });
 const handle = app.getRequestHandler();
 const server = express();
 const supServer = require("http").Server(server);
 const io = require("socket.io")(supServer);
-const { v4: uuidV4 } = require("uuid");
-const { PeerServer } = require("peer");
-console.log({ uuidV4: uuidV4() });
+// const { v4: uuidV4 } = require("uuid");
+// const { PeerServer } = require("peer");
 app
   .prepare()
   .then(() => {

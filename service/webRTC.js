@@ -2,12 +2,12 @@ import { io } from "socket.io-client";
 
 let peer, socket;
 const peers = {};
-
 const webRTC = (room) => {
   socket = io("/");
+  const secure = window.location.origin.split("/").includes("https:");
   peer = new Peer({
     host: "rajaosama-peer.herokuapp.com",
-    port: "443",
+    port: secure ? "443" : "80",
     path: "/",
     iceServers: [{ urls: "stun:stun.1.google.com:19302" }],
   });
